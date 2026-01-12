@@ -19,7 +19,7 @@
 
     .wrap{
       position:relative;
-      width:420px;
+      width:420px;              /* button size */
       cursor:pointer;
       user-select:none;
       -webkit-tap-highlight-color: transparent;
@@ -31,32 +31,34 @@
       filter: drop-shadow(0 10px 15px rgba(0,0,0,.3));
     }
 
+    /* HAT */
     .hat{
       position:absolute;
       left:50%;
-      top:-60%;
+      top:-70%;                 /* start fully above frame */
       transform:translateX(-50%);
-      width:65%;
+      width:78%;                /* BIGGER hat */
       pointer-events:none;
     }
 
-    /* active animation */
+    /* animate on click */
     .active .hat{
       animation: hatDrop 4.2s ease-in-out forwards;
     }
 
+    /* drop → hold → rise */
     @keyframes hatDrop{
-      0%   { top:-60%; }
-      40%  { top:8%; }     /* slowly lowers onto head */
-      70%  { top:8%; }     /* holds */
-      100% { top:-60%; }   /* lifts back up */
+      0%   { top:-70%; }
+      45%  { top:4%; }          /* stops higher on head */
+      75%  { top:4%; }          /* hold */
+      100% { top:-70%; }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="wrap" id="btn">
+  <div class="wrap" id="btn" role="button" aria-label="Hat button" tabindex="0">
     <img class="boy" src="./boy.png" alt="Boy" />
     <img class="hat" src="./hat.png" alt="Hat" />
   </div>
@@ -69,7 +71,7 @@
     const btn = document.getElementById("btn");
     const audio = document.getElementById("anthem");
 
-    btn.addEventListener("click", () => {
+    function trigger(){
       if (btn.classList.contains("active")) return;
 
       btn.classList.add("active");
@@ -81,8 +83,15 @@
       setTimeout(() => {
         btn.classList.remove("active");
       }, 4200);
+    }
+
+    btn.addEventListener("click", trigger);
+    btn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") trigger();
     });
   </script>
 
 </body>
 </html>
+
+
