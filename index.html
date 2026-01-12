@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hat Button</title>
+
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:transparent;
+      overflow:hidden;
+      font-family: system-ui, Arial, sans-serif;
+    }
+
+    .wrap{
+      position:relative;
+      width:420px;
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .boy{
+      width:100%;
+      display:block;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,.3));
+    }
+
+    .hat{
+      position:absolute;
+      left:50%;
+      top:-60%;
+      transform:translateX(-50%);
+      width:65%;
+      pointer-events:none;
+    }
+
+    /* active animation */
+    .active .hat{
+      animation: hatDrop 4.2s ease-in-out forwards;
+    }
+
+    @keyframes hatDrop{
+      0%   { top:-60%; }
+      40%  { top:8%; }     /* slowly lowers onto head */
+      70%  { top:8%; }     /* holds */
+      100% { top:-60%; }   /* lifts back up */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="wrap" id="btn">
+    <img class="boy" src="./boy.png" alt="Boy" />
+    <img class="hat" src="./hat.png" alt="Hat" />
+  </div>
+
+  <audio id="anthem" preload="auto">
+    <source src="./anthem.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const btn = document.getElementById("btn");
+    const audio = document.getElementById("anthem");
+
+    btn.addEventListener("click", () => {
+      if (btn.classList.contains("active")) return;
+
+      btn.classList.add("active");
+
+      audio.currentTime = 0;
+      audio.volume = 0.9;
+      audio.play().catch(()=>{});
+
+      setTimeout(() => {
+        btn.classList.remove("active");
+      }, 4200);
+    });
+  </script>
+
+</body>
+</html>
